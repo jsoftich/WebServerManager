@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using System.ServiceProcess;
 using System.IO;
 using System.Net;
@@ -39,6 +40,13 @@ namespace WebServerManager
             int ControlC = 0;
             int i = 0;
 
+            int iTotalCores = Environment.ProcessorCount;
+            int iMaxCores = iTotalCores - 2;
+            int iTotalUsableCores = iTotalCores <= iMaxCores ? iTotalCores : iMaxCores;
+
+            var options = new ParallelOptions();
+            options.MaxDegreeOfParallelism = iTotalUsableCores;
+
             //todo::Move to db
             string[] Servers = ConfigurationManager.AppSettings["ServersToMonitor"].Split(',');
 
@@ -65,7 +73,7 @@ namespace WebServerManager
                 if (ControlC != 0)
                     break;
 
-                foreach (string myServer in Servers)
+                Parallel.ForEach(Servers, options, async myServer =>
                 {
                     try
                     {
@@ -94,18 +102,20 @@ namespace WebServerManager
 
 
                         }
-                        perfc = new PerformanceCounter("Active Server Pages", "Requests Executing", "", myServer);                    
+                        perfc = new PerformanceCounter("Active Server Pages", "Requests Executing", "", myServer);
                         perfErrorsScript = new PerformanceCounter("Active Server Pages", "Errors From Script Compilers", "", myServer);
                         fRequests = perfc.NextValue();
+                        
+                        string Message = String.Format("{0}\t{1}\t{2}K\t{3}K\t{4}", sMachineName, DateTime.Now.ToString("yyyy-MM-dd HH:mm"), mem.ToString("###,###,##0"), acmem.ToString("###,###,##0"), fRequests.ToString());
+                        Console.WriteLine(Message);                        
+                        await sw.WriteLineAsync(Message);
 
-                        Console.WriteLine("{0}\t{1}\t{2}K\t{3}K\t{4}", sMachineName, DateTime.Now.ToString("yyyy-MM-dd HH:mm"), mem.ToString("###,###,##0"), acmem.ToString("###,###,##0"), fRequests.ToString());
-                        sw.WriteLine("{0}\t{1}\t{2}K\t{3}K\t{4}", sMachineName, DateTime.Now.ToString("yyyy-MM-dd HH:mm"), mem.ToString("###,###,##0"), acmem.ToString("###,###,##0"), fRequests.ToString());
-                        if (mem >= 825000.00 || acmem >= 350000.00 || perfErrorsScript.RawValue>0)
+                        if (mem >= 825000.00 || acmem >= 350000.00 || perfErrorsScript.RawValue > 0)
                         {
                             //Get BigIP PoolName to use
                             //TODO: Grab Pool Name from BigIP instead of having to app.config the pools
-                            sPool = ConfigurationManager.AppSettings[myServer.Substring(0, 
-                                    myServer.LastIndexOf('.') + 1)] ?? "BLANK"; 
+                            sPool = ConfigurationManager.AppSettings[myServer.Substring(0,
+                                    myServer.LastIndexOf('.') + 1)] ?? "BLANK";
 
                             try
                             {
@@ -126,7 +136,7 @@ namespace WebServerManager
                                             if (aspCounter.ElapsedMilliseconds > TimeOut)
                                             {
                                                 aspCounter.Stop();
-                                                Utility.gMAIL(string.Format("Still waiting for ASP to die on {0}, please manually reset", sMachineName),myServer);
+                                                Utility.gMAIL(string.Format("Still waiting for ASP to die on {0}, please manually reset", sMachineName), myServer);
                                                 goto Finish;
 
                                             }
@@ -174,7 +184,7 @@ namespace WebServerManager
                                 sMessage = "Error in automation:\r\n" + sMessage;
                                 Utility.gMAIL(sMessage, sMachineName);
                             }
-                            
+
                         }
 
 
@@ -188,7 +198,7 @@ namespace WebServerManager
                 Finish:
                     sMessage = "";
 
-                }
+                });
             
                 if (i > 0 && i % 2 == 0)
                     Console.WriteLine("There has been {0} checks", i.ToString("###,###,##0"));
@@ -208,6 +218,7 @@ namespace WebServerManager
 
         static void GetFile(ref StreamWriter sw, ref string sFileNm,ref string sStatsDir)
         {
+            //switch filenames if date has changed.
             string sDt = DateTime.Now.ToString("yyyyMMdd") + ".tab";
             if (sDt != sFileNm)
             {

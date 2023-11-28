@@ -1,9 +1,9 @@
 D:\dev\Merlin\MERLIN SSAFE\JMS\C#\WebServerManager.root\WebServerManager\WebServerManager\bin\Debug\WebServerManager.exe
 D:\dev\Merlin\MERLIN SSAFE\JMS\C#\WebServerManager.root\WebServerManager\WebServerManager\bin\Debug\WebServerManager.pdb
 D:\dev\Merlin\MERLIN SSAFE\JMS\C#\WebServerManager.root\WebServerManager\WebServerManager\bin\Debug\iControl.dll
-D:\dev\Merlin\MERLIN SSAFE\JMS\C#\WebServerManager.root\WebServerManager\WebServerManager\obj\Debug\WebServerManager.csprojAssemblyReference.cache
 D:\dev\Merlin\MERLIN SSAFE\JMS\C#\WebServerManager.root\WebServerManager\WebServerManager\obj\Debug\WebServerManager.csproj.CoreCompileInputs.cache
 D:\dev\Merlin\MERLIN SSAFE\JMS\C#\WebServerManager.root\WebServerManager\WebServerManager\obj\Debug\WebServerManager.csproj.CopyComplete
 D:\dev\Merlin\MERLIN SSAFE\JMS\C#\WebServerManager.root\WebServerManager\WebServerManager\obj\Debug\WebServerManager.exe
 D:\dev\Merlin\MERLIN SSAFE\JMS\C#\WebServerManager.root\WebServerManager\WebServerManager\obj\Debug\WebServerManager.pdb
 D:\dev\Merlin\MERLIN SSAFE\JMS\C#\WebServerManager.root\WebServerManager\WebServerManager\bin\Debug\WebServerManager.exe.config
+D:\dev\Merlin\MERLIN SSAFE\JMS\C#\WebServerManager.root\WebServerManager\WebServerManager\obj\Debug\WebServerManager.csproj.AssemblyReference.cache
