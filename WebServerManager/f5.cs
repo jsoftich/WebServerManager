@@ -20,7 +20,7 @@ namespace WebServerManager
             IPAddress = ConfigurationManager.AppSettings["f5IP"];
             User = ConfigurationManager.AppSettings["f5Username"];
             Password = ConfigurationManager.AppSettings["f5Password"];
-            Port = Int32.Parse(ConfigurationManager.AppSettings["f5Port"]);
+            Port = Int32.TryParse(ConfigurationManager.AppSettings["f5Port"],out Port) ? Port :443;
 
             this.bInitialized = m_interfaces.initialize(IPAddress, Port, User, Password);
         }
