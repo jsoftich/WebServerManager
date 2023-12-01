@@ -13,13 +13,16 @@ namespace WebServerManager
         private string IPAddress;
         private string User;
         private string Password;
+        private int Port;
 
         public f5()
         {
             IPAddress = ConfigurationManager.AppSettings["f5IP"];
             User = ConfigurationManager.AppSettings["f5Username"];
             Password = ConfigurationManager.AppSettings["f5Password"];
-            this.bInitialized = m_interfaces.initialize(IPAddress, 443, User, Password);
+            Port = Int32.Parse(ConfigurationManager.AppSettings["f5Port"]);
+
+            this.bInitialized = m_interfaces.initialize(IPAddress, Port, User, Password);
         }
 
         Interfaces m_interfaces = new Interfaces();
