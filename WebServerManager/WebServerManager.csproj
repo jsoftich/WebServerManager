@@ -48,8 +48,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="iControl">
-      <HintPath>obj\iControl.dll</HintPath>
+    <Reference Include="iControl, Version=10.2.0.0, Culture=neutral, PublicKeyToken=275567876a54b5c7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>3rdParty\iControl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
