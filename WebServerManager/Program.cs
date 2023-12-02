@@ -17,8 +17,8 @@ namespace WebServerManager
     class Program
     {
         public static TimeSpan waitTime = new TimeSpan(0, 1, 0);
-        public static long TimeOut = 600000;
-        public static long ServiceTimeOut = 300000;
+        public static long TimeOut = long.TryParse(ConfigurationManager.AppSettings["TimeOut"], out TimeOut) ? TimeOut : 600000;
+        public static long ServiceTimeOut = long.TryParse(ConfigurationManager.AppSettings["ServiceTimeOut"], out ServiceTimeOut) ? ServiceTimeOut : 300000;
 
         static void Main(string[] args)
         {
