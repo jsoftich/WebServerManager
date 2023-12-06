@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.ServiceProcess;
 using System.IO;
 using System.Net;
-using iControl;
 
 
 namespace WebServerManager
