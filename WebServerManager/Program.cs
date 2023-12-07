@@ -57,10 +57,10 @@ namespace WebServerManager
                 e.Cancel = true;
                 if (ControlC == 0)
                 {
-                    Console.Write("\n");
+                    Console.WriteLine("");
                     Console.WriteLine("*** This program has been prematurely terminated by the user      ***");
                     Console.WriteLine("*** and will exit after the current server checks have completed processing. ***");
-                    Console.Write("\n");
+                    Console.WriteLine("");
                 }
                 ControlC++;
             };
